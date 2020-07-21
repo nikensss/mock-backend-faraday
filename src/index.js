@@ -20,23 +20,25 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) =>
+app.get('/', (req, res) => {
+  console.log('echoing');
   res
     .status(200)
     .send(
       `MOCK-FARADAY-BACKEND API😎 ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
-    )
-);
+    );
+});
 
 app.get('/echo', (req, res) => res.status(200).json({ msg: 'echo' }));
 
-app.get('/mockdata', (req, res) => {
+app.get('/mockdata/:length', (req, res) => {
+  console.log('generating mock data: ' + req.params.length);
   const data = {
     x: [],
     y: []
   };
 
-  const dataAmount = 1e6;
+  const dataAmount = req.params.length || 1e6;
   for (let i = 0; i < dataAmount; i++) {
     data.x.push(i);
     data.y.push(11 + Math.random() * 2);
