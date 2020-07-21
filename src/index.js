@@ -24,7 +24,7 @@ app.get('/', (req, res) =>
   res
     .status(200)
     .send(
-      `MBMNN API😎 ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+      `MOCK-FARADAY-BACKEND API😎 ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
     )
 );
 
