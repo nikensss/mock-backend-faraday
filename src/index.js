@@ -28,12 +28,22 @@ app.get('/', (req, res) =>
     )
 );
 
-app.get('/mockdata', (req, res) =>
-  res.status(200).json({
-    xAxis: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    yAxis: [12, 11.34, 11.57, 12, 11.34, 11.57, 12, 11.34, 11.57, 11, 98]
-  })
-);
+app.get('/echo', (req, res) => res.status(200).json({ msg: 'echo' }));
+
+app.get('/mockdata', (req, res) => {
+  const data = {
+    x: [],
+    y: []
+  };
+
+  const dataAmount = 1e6;
+  for (let i = 0; i < dataAmount; i++) {
+    data.x.push(i);
+    data.y.push(11 + Math.random() * 2);
+  }
+
+  return res.status(200).json(data);
+});
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Listening on port ${process.env.PORT || 3000}`);
