@@ -29,7 +29,11 @@ app.get('/', (req, res) => {
     );
 });
 
-app.get('/echo', (req, res) => res.status(200).json({ msg: 'echo' }));
+app.get('/echo/:msg', (req, res) => {
+  const msg = req.params.msg || 'echo';
+  console.log(`echoing: ${msg}`);
+  return res.status(200).json({ msg });
+});
 
 app.get('/mockdata/:length', (req, res) => {
   console.log('generating mock data: ' + req.params.length);
@@ -38,10 +42,14 @@ app.get('/mockdata/:length', (req, res) => {
     y: []
   };
 
+  const seed = 144;
+
   const dataAmount = req.params.length || 1e6;
   for (let i = 0; i < dataAmount; i++) {
+    const change = Math.random() * 5 - 2.5; //a number between -0.025 and +0.025
+    const y = (data.y[i - 1] || seed) + seed * change;
+    data.y.push(y);
     data.x.push(i);
-    data.y.push(11 + Math.random() * 2);
   }
 
   return res.status(200).json(data);
